@@ -61,7 +61,8 @@
         "alarms",
         "fontSettings",
         "scripting",
-        "storage"
+        "storage",
+        "nativeMessaging"
     ],
     "host_permissions": [
         "*://*/*"

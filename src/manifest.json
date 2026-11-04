@@ -41,7 +41,8 @@
         "fontSettings",
         "storage",
         "tabs",
-        "<all_urls>"
+        "<all_urls>",
+        "nativeMessaging"
     ],
     "optional_permissions": [
         "contextMenus"

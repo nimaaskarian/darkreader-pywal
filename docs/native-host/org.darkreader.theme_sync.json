@@ -1,0 +1,7 @@
+{
+  "name": "org.darkreader.theme_sync.json",
+  "description": "color source",
+  "path": "/home/you/bin/darkcolor.py",
+  "type": "stdio",
+  "allowed_extensions": ["darkreader-fork@your-fork-id"]
+}

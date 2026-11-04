@@ -241,6 +241,20 @@ export class Extension {
         }, WAKE_CHECK_INTERVAL);
     }
 
+    static connectNativeColors() {
+        const port = chrome.runtime.connectNative('org.darkreader.theme_sync');
+        port.onMessage.addListener((res) => {
+            Extension.changeSettings({
+                theme: {
+                    ...UserStorage.settings.theme,
+                    darkSchemeBackgroundColor: res.bg,
+                    darkSchemeTextColor: res.fg,
+                },
+            });
+        });
+        port.onDisconnect.addListener(() => setTimeout(Extension.connectNativeColors, 1000));
+    }
+
     static async start(): Promise<void> {
         Extension.init();
         await TabManager.cleanState();
@@ -276,6 +290,7 @@ export class Extension {
 
         UserStorage.settings.fetchNews && Newsmaker.subscribe();
         Extension.startBarrier!.resolve();
+        Extension.connectNativeColors();
     }
 
     private static getMessengerAdapter(): ExtensionAdapter {

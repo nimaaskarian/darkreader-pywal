@@ -241,15 +241,23 @@ export class Extension {
         }, WAKE_CHECK_INTERVAL);
     }
 
+    static isLight(hex: string): boolean {
+        const n = parseInt(hex.replace('#', ''), 16);
+        const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+        return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.5;
+    }
+
     static connectNativeColors() {
         const port = chrome.runtime.connectNative('org.darkreader.theme_sync');
         port.onMessage.addListener((res) => {
             Extension.changeSettings({
-                theme: {
-                    ...UserStorage.settings.theme,
-                    darkSchemeBackgroundColor: res.bg,
-                    darkSchemeTextColor: res.fg,
-                },
+              theme: {
+                  ...UserStorage.settings.theme,
+                  darkSchemeBackgroundColor: res.bg,
+                  darkSchemeTextColor: res.fg,
+                  lightSchemeBackgroundColor: res.bg,
+                  lightSchemeTextColor: res.fg,
+              },
             });
         });
         port.onDisconnect.addListener(() => setTimeout(Extension.connectNativeColors, 1000));
